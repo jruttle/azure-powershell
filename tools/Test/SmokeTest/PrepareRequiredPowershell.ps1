@@ -29,9 +29,11 @@ function Install-PowerShell {
       dotnet --version
       dotnet new tool-manifest --force
       if ( 'latest' -eq $requiredPsVersion ) {
+        Write-Host "Installing latest PowerShell package using dotnet tool install command."
         dotnet tool install PowerShell
       }
       else {
+
         dotnet tool install PowerShell --version $requiredPsVersion 
       }
       dotnet tool list
