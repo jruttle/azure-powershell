@@ -46,13 +46,16 @@ function Install-PowerShell {
   if ($requiredPsVersion -eq $windowsPowershellVersion) {
     Install-Module -Repository PSGallery -Name PowerShellGet -Scope CurrentUser -AllowClobber -Force
   }else{
+    Write-Host "PowershellGet will be updated to the latest version to make sure it can work well with PowerShell $requiredPsVersion."
     $command = "Install-Module -Repository PSGallery -Name PowerShellGet -Scope CurrentUser -AllowClobber -Force `
     Exit"
     if ('preview' -eq $requiredPsVersion) {
+      Write-Host "PowerShell preview package has been extracted to $PowerShellPath, and PowershellGet will be updated in PowerShell preview."
       # Change the mode of 'pwsh' to 'rwxr-xr-x' to allow execution
       if ($AgentOS -ne "Windows_NT") { chmod 755 "$PowerShellPath/pwsh" }
       . "$PowerShellPath/pwsh" -c $command
     } else {
+      Write-Host "PowershellGet will be updated in PowerShell $requiredPsVersion."
       dotnet tool run pwsh -c $command
     }
   }
